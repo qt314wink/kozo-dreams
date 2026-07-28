@@ -1,0 +1,29 @@
+/* Kozo Dreams v3 — App-specific styles */
+
+/* Studio modal scrollbar */
+.studio-modal ::-webkit-scrollbar { width: 6px; }
+.studio-modal ::-webkit-scrollbar-track { background: transparent; }
+.studio-modal ::-webkit-scrollbar-thumb { background: var(--kozo-fog); border-radius: 3px; }
+
+/* Range input styling */
+input[type="range"] { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; outline: none; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--kozo-murasaki); cursor: pointer; border: 2px solid var(--kozo-shironeri); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--kozo-murasaki); cursor: pointer; border: 2px solid var(--kozo-shironeri); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+
+/* SVG text selection prevention */
+svg { user-select: none; }
+
+/* Paper texture z-index management */
+.paper-texture::before { z-index: 9999; pointer-events: none; }
+
+/* Ensure modals are above texture overlay */
+[data-theme="dark"] .paper-texture::before { opacity: 0.15; }
+
+/* Responsive typography */
+@media (max-width: 640px) { .font-display { letter-spacing: 0.02em; } }
+
+/* Print styles */
+@media print {
+  .paper-texture::before, nav, .fixed { display: none !important; }
+  section { page-break-inside: avoid; }
+}
