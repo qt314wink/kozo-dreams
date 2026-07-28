@@ -1,0 +1,262 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* === KOZO V3 DESIGN TOKENS === */
+
+    /* Five Sacred Dyes */
+    --kozo-ai-iro: #165E83;
+    --kozo-kakishibu: #8B4513;
+    --kozo-sakura: #FEDCDB;
+    --kozo-murasaki: #77428D;
+    --kozo-sumi: #1A1A1A;
+    --kozo-shironeri: #F5F0E8;
+    --kozo-cream: #EDE6D6;
+    --kozo-fog: #E8E4DC;
+    --kozo-night: #171512;
+    --kozo-gold: #B99855;
+
+    /* Glows */
+    --kozo-glow-ai: rgba(22,94,131,0.25);
+    --kozo-glow-kaki: rgba(139,69,19,0.25);
+    --kozo-glow-sakura: rgba(254,220,219,0.35);
+    --kozo-glow-murasaki: rgba(119,66,141,0.3);
+    --kozo-glow-gold: rgba(185,152,85,0.3);
+
+    /* Timing */
+    --t-instant: 100ms;
+    --t-fast: 200ms;
+    --t-medium: 400ms;
+    --t-slow: 720ms;
+    --t-ambient: 8s;
+
+    /* Motion Parameters */
+    --motion-distance: 4px;
+    --motion-duration: 400ms;
+    --motion-intensity: 1;
+    --motion-peel: 35deg;
+    --motion-image-scale: 1.02;
+    --motion-float: 10px;
+
+    /* Focus */
+    --focus-ring: 0 0 0 3px var(--kozo-shironeri), 0 0 0 6px var(--kozo-murasaki);
+
+    /* Surfaces */
+    --surface-paper: var(--kozo-shironeri);
+    --surface-deckle: var(--kozo-cream);
+    --surface-washi: var(--kozo-fog);
+    --surface-night: var(--kozo-night);
+
+    /* shadcn overrides */
+    --background: 43 30% 94%;
+    --foreground: 30 8% 10%;
+    --card: 43 30% 94%;
+    --card-foreground: 30 8% 10%;
+    --popover: 43 30% 94%;
+    --popover-foreground: 30 8% 10%;
+    --primary: 280 37% 40%;
+    --primary-foreground: 43 30% 94%;
+    --secondary: 40 25% 90%;
+    --secondary-foreground: 30 8% 10%;
+    --muted: 40 20% 88%;
+    --muted-foreground: 30 8% 40%;
+    --accent: 200 65% 30%;
+    --accent-foreground: 43 30% 94%;
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 43 30% 94%;
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 280 37% 40%;
+    --radius: 0.75rem;
+  }
+
+  [data-theme="dark"] {
+    --kozo-shironeri: #1E1B16;
+    --kozo-cream: #2A2518;
+    --kozo-fog: #3A3428;
+    --kozo-sumi: #F5F0E8;
+    --kozo-night: #0F0D0A;
+    --surface-paper: var(--kozo-night);
+    --surface-deckle: var(--kozo-cream);
+    --surface-washi: var(--kozo-fog);
+    --surface-night: var(--kozo-sumi);
+    --background: 36 18% 8%;
+    --foreground: 43 30% 94%;
+    --card: 36 18% 8%;
+    --card-foreground: 43 30% 94%;
+    --popover: 36 18% 8%;
+    --popover-foreground: 43 30% 94%;
+    --primary: 280 37% 55%;
+    --primary-foreground: 43 30% 94%;
+    --secondary: 36 15% 18%;
+    --secondary-foreground: 43 30% 94%;
+    --muted: 36 12% 20%;
+    --muted-foreground: 40 20% 65%;
+    --accent: 200 50% 45%;
+    --accent-foreground: 43 30% 94%;
+    --border: 36 12% 20%;
+    --input: 36 12% 20%;
+    --ring: 280 37% 55%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  [data-motion="reduced"] {
+    --motion-distance: 0px;
+    --motion-duration: 90ms;
+    --motion-intensity: 0;
+    --motion-peel: 0deg;
+    --motion-image-scale: 1;
+    --motion-float: 0px;
+    --t-ambient: 1ms;
+  }
+
+  [data-motion="reduced"] *,
+  [data-motion="reduced"] *::before,
+  [data-motion="reduced"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 90ms !important;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply font-body bg-kozo-shironeri text-kozo-sumi antialiased;
+    @apply transition-colors duration-700 ease-ink;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  .paper-texture::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(139,119,89,0.018) 3px, rgba(139,119,89,0.018) 6px),
+      repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(139,119,89,0.012) 3px, rgba(139,119,89,0.012) 6px);
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--kozo-murasaki);
+    color: white;
+    padding: 8px 16px;
+    z-index: 10000;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: top var(--t-fast) ease-paper;
+  }
+  .skip-link:focus { top: 0; }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--kozo-glow-murasaki);
+    color: var(--kozo-sumi);
+  }
+}
+
+@layer components {
+  .surface-paper {
+    background: var(--surface-paper);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 12px 35px rgba(58,42,27,0.08);
+    border-radius: 0.45rem;
+  }
+  .surface-deckle {
+    background: var(--surface-deckle);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 8px 24px rgba(58,42,27,0.06);
+    border-radius: 0.45rem;
+  }
+  .surface-washi {
+    background: var(--surface-washi);
+    border-radius: 0.45rem;
+  }
+  .section {
+    @apply relative w-full px-6 md:px-8 lg:px-12 py-24 md:py-32;
+  }
+  .section-inner {
+    @apply max-w-content mx-auto;
+  }
+  .body-copy {
+    max-width: 68ch;
+  }
+  @keyframes glyph-orbit {
+    0% { transform: translate(-50%, -50%) rotate(0deg) translateX(40px) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg) translateX(40px) rotate(-360deg); }
+  }
+  .seigaiha-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'%3E%3Cpath d='M0 15 Q15 0 30 15 Q45 30 60 15' fill='none' stroke='%231A1A1A' stroke-width='0.4' opacity='0.06'/%3E%3Cpath d='M0 30 Q15 15 30 30 Q45 45 60 30' fill='none' stroke='%231A1A1A' stroke-width='0.4' opacity='0.06'/%3E%3C/svg%3E");
+    background-size: 60px 30px;
+  }
+  .halftone-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(26,26,26,0.04) 1px, transparent 1px);
+    background-size: 8px 8px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .kirigami-surface {
+    transition: transform var(--t-medium) ease-origami;
+    transform-origin: top right;
+  }
+  .kirigami-surface:hover,
+  .kirigami-surface:focus-visible {
+    transform: perspective(800px) rotateX(calc(-8deg * var(--motion-intensity))) rotateY(calc(5deg * var(--motion-intensity)));
+  }
+  .shimmer-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer-sweep::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: translateX(-100%);
+  }
+  .shimmer-sweep:hover::after,
+  .shimmer-sweep:focus-visible::after {
+    animation: shimmer-sweep 650ms ease-out forwards;
+  }
+  .studio-canvas {
+    @apply relative overflow-hidden;
+    background: var(--surface-paper);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 20px 60px rgba(58,42,27,0.15);
+    border-radius: 1rem;
+  }
+  .paper-cut {
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.15));
+  }
+  .prism-glow {
+    filter: drop-shadow(0 0 12px rgba(185,152,85,0.4));
+  }
+  .origami-fold {
+    background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(237,230,214,0.4) 50%, rgba(232,228,220,0.6) 100%);
+    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.9), inset -1px -1px 0 rgba(0,0,0,0.08);
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+}
