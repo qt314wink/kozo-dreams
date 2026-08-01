@@ -5,12 +5,18 @@ cd "$ROOT"
 npm run check
 npm run build
 mkdir -p .run
-if [ -f .run/server.pid ] && kill -0 "$(cat .run/server.pid)" 2>/dev/null; then
-  kill "$(cat .run/server.pid)" || true
+if [ -f .run/server.pid ]; then
+  bash scripts/termux/stop.sh
 fi
-nohup npm run serve > .run/server.log 2>&1 &
-echo $! > .run/server.pid
+nohup node scripts/serve.mjs > .run/server.log 2>&1 &
+SERVER_PID=$!
+echo "$SERVER_PID" > .run/server.pid
 sleep 1
+if ! kill -0 "$SERVER_PID" 2>/dev/null; then
+  cat .run/server.log >&2
+  rm -f .run/server.pid
+  exit 1
+fi
 URL="http://127.0.0.1:${PORT:-4173}"
 printf '\nKozo Dreams is running at %s\n' "$URL"
 printf 'Server log: %s/.run/server.log\n' "$ROOT"
