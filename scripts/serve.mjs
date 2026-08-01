@@ -6,12 +6,15 @@ const root = path.resolve(process.env.KOZO_ROOT || 'dist');
 const host = process.env.HOST || '0.0.0.0';
 const port = Number(process.env.PORT || 4173);
 const types = { '.html':'text/html; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8', '.json':'application/json; charset=utf-8', '.svg':'image/svg+xml', '.webp':'image/webp', '.png':'image/png' };
+const rootPrefix = `${root}${path.sep}`;
 
 const server = http.createServer(async (req, res) => {
   try {
-    const pathname = decodeURIComponent(new URL(req.url, `http://${req.headers.host}`).pathname);
-    let target = path.join(root, pathname === '/' ? 'index.html' : pathname);
-    if (!target.startsWith(root)) throw new Error('Forbidden');
+    const requestUrl = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
+    const pathname = decodeURIComponent(requestUrl.pathname);
+    const relativePath = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
+    let target = path.resolve(root, relativePath);
+    if (target !== root && !target.startsWith(rootPrefix)) throw new Error('Forbidden');
     const info = await stat(target).catch(() => null);
     if (info?.isDirectory()) target = path.join(target, 'index.html');
     const body = await readFile(target);
