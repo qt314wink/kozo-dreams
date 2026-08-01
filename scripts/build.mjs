@@ -8,7 +8,11 @@ await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 await cp(path.join(root, 'index.html'), path.join(dist, 'index.html'));
 for (const dir of ['assets', 'data']) {
-  try { await cp(path.join(root, dir), path.join(dist, dir), { recursive: true }); } catch {}
+  try {
+    await cp(path.join(root, dir), path.join(dist, dir), { recursive: true });
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+  }
 }
 const buf = await readFile(path.join(dist, 'index.html'));
 const info = await stat(path.join(dist, 'index.html'));
